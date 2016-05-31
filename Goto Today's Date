@@ -1,0 +1,28 @@
+function onOpen() {
+  var ui = SpreadsheetApp.getUi();
+  // Or DocumentApp or FormApp.
+  ui.createMenu('Navigation')
+      .addItem('Today\'s Date', 'gotoCurrentDay')
+      .addToUi();
+}
+
+function gotoCurrentDay() {
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var sheet = ss.getActiveSheet();
+
+  //Get current day value from the MATCH spreadsheet function
+  //Example of cell value: 73
+  var range = sheet.getRange(1, 2).getValue();
+  var rightNow = new Date();
+  var month = rightNow.getMonth() + 1;
+  var day =  rightNow.getDate();
+  var dayColumn =  day + 2;
+
+  //Go to bottom cell so that when it goes back up to current day, it's at the top of the screen
+  sheet.setActiveCell(sheet.getRange(sheet.getLastColumn(), 1));
+  Logger.log("Select Last column: " + sheet.getLastColumn());
+
+  //Go back up to current day cell
+  sheet.setActiveCell(sheet.getRange(2, dayColumn));
+  Logger.log("Select Current Day Column: " + range);
+}
